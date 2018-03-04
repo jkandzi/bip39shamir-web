@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Bip39 Shamir</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <script src="js/bundle.js"></script>
+    <link rel="stylesheet" href="css/custom.css">
+  </head>
+  <body>
+    <div class="container">
+      
+      <h1 class="display-4 text-center mt-5">Shamir's Secret 39</h1>
+      <p class="lead text-center">Split your Bip39 seed in <strong>N</strong> different mnemonics. Any <strong>K</strong> of the new mnemonics are sufficient to reconstruct the original mnemonic. <a href="https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing">Learn more.</a></p>
+      
+      <!-- Navigation -->
+      <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="true">Create Shares</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="recover-tab" data-toggle="tab" href="#recover" role="tab" aria-controls="recover" aria-selected="false">Recover Secret</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active mt-2" id="create" role="tabpanel" aria-labelledby="create-tab">
+          <!-- Create Tab -->
+          <form>
+            <div class="form-group">
+              <label for="mnemonic-input">Bip39 Seed:</label>
+              <div class="input-group mb-3">
+                <input type="text" id="mnemonic-input" class="form-control" placeholder="mnemonic" aria-label="Bip39 Seed" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" id="random" type="button">Random</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">N</span>
+                  </div>
+                  <input id="n-input" type="text" class="form-control" value="3" aria-label="N" aria-describedby="basic-addon1" required>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                  <small id="passwordHelpBlock" class="form-text text-muted">
+                    The number of shares to be generated. Must be a value between 2 and 255.
+                  </small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">K</span>
+                  </div>
+                  <input id="k-input" type="text" class="form-control" value="2" aria-label="K" aria-describedby="basic-addon1" required>
+                  <small id="passwordHelpBlock" class="form-text text-muted">
+                    The number of shares needed to recover the secret.
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mt-3">
+              <label for="shares-output">Shares:</label>
+              <textarea class="form-control" id="shares-output" rows="6"></textarea>
+              <small id="passwordHelpBlock" class="form-text text-muted">
+                Distribute the shares to different places.
+              </small>
+            </div>
+            
+            <div class="row justify-content-md-center">
+              <button id="refresh" type="button" class="btn btn-dark col-3">Regenerate</button>
+            </div>
+
+          </form>
+        </div>
+        
+        <div class="tab-pane mt-2" id="recover" role="tabpanel" aria-labelledby="recover-tab">
+          <!-- Recover Tab -->
+          <form>
+            <div class="form-group">
+              <label for="shares-input">Shares:</label>
+              <textarea class="form-control" id="shares-input" rows="6"></textarea>
+            </div>
+
+            <div class="form-group mt-3">
+              <label for="menmonic-output">Secret:</label>
+              <input id="menmonic-output" class="form-control" type="text">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="text-center mt-5 mb-5">
+        <hr class="col-xs-12">
+        <p>
+          Made by <a href="https://twitter.com/jkandzi">@jkandzi</a>, create a PR on <a href="#">github</a>.
+        </p>
+      </div>
+    </div>
+    <script>
+      validateCreate = function() {
+
+      }
+
+      validateRecover = function() {
+
+      }
+
+      createShares = function() {
+        var n = parseInt($('#n-input').val());
+        var k = parseInt($('#k-input').val());
+        var mnemonic = $('#mnemonic-input').val();
+        var s = shares(mnemonic, n, k);
+        $('#shares-output').val(s.join('\n'));
+      }
+
+      randomMnemonic = function() {
+        $('#mnemonic-input').val(random());
+        createShares();
+      }
+
+      $("#random").click(function() {
+        randomMnemonic();
+      });
+
+      $('#mnemonic-input, #n-input, #k-input').on('input', function(e){
+        createShares();
+      });
+
+      $('#refresh').on('click', function(e) {
+        createShares();
+      });
+
+      $('#shares-input').on('input', function(e){
+        var s = $('#shares-input').val().split('\n');
+        s = s.filter(function(x) {
+          return x !== "";
+        });
+        var mnemonic = combine(s)
+        $('#menmonic-output').val(mnemonic);
+      });
+
+      randomMnemonic();
+    </script>
+  </body>
+</html>
