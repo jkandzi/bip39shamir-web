@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/jkandzi/bip39shamir-web.svg?branch=master)](https://travis-ci.org/jkandzi/bip39shamir-web)
 
+[shamir.kandzi.com](http://shamir.kandzi.com)
+
 Split your Bip39 seed in `N` different mnemonics. Any `K` of the new mnemonics are sufficient to reconstruct the original mnemonic.
 
 
