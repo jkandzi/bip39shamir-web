@@ -45,6 +45,9 @@
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" id="random" type="button">Random</button>
                     </div>
+                    <div class="invalid-feedback">
+                      Invalid Bip39 Seed.
+                    </div>
                   </div>
                 </div>
                 
@@ -54,25 +57,28 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">N</span>
                       </div>
-                      <input id="n-input" type="text" class="form-control" value="3" aria-label="N" aria-describedby="basic-addon1" required>
+                      <input id="n-input" type="text" class="form-control" value="3" aria-label="N" aria-describedby="basic-addon1">
                       <div class="invalid-feedback">
-                        Please choose a username.
+                        Must be a value between 2 and 255.
                       </div>
-                      <small class="form-text text-muted">
-                        The number of shares to be generated. Must be a value between 2 and 255.
-                      </small>
                     </div>
+                    <small class="form-text text-muted">
+                      The number of shares to be generated.
+                    </small>
                   </div>
                   <div class="col-6">
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">K</span>
                       </div>
-                      <input id="k-input" type="text" class="form-control" value="2" aria-label="K" aria-describedby="basic-addon1" required>
-                      <small class="form-text text-muted">
-                        The number of shares needed to recover the secret.
-                      </small>
+                      <input id="k-input" type="text" class="form-control" value="2" aria-label="K" aria-describedby="basic-addon1">
+                      <div class="invalid-feedback">
+                        Must be a value between 2 and N.
+                      </div>
                     </div>
+                    <small class="form-text text-muted">
+                      The number of shares needed to recover the secret.
+                    </small>
                   </div>
                 </div>
               </div>
@@ -97,6 +103,9 @@
             <div class="form-group">
               <label for="shares-input">Shares:</label>
               <textarea class="form-control" id="shares-input" rows="6"></textarea>
+              <small class="form-text text-muted">
+                Enter K of your shares separated by newlines to recover your Bip39 Seed.
+              </small>
             </div>
 
             <div class="form-group mt-3">
@@ -116,8 +125,22 @@
       </div>
     </div>
     <script>
-      validateCreate = function() {
+      setValid = function(x, valid) {
+        if (valid) {
+          x.addClass('is-valid').removeClass('is-invalid');
+        } else {
+          x.addClass('is-invalid').removeClass('is-valid');
+        }
+      }
 
+      validateCreate = function() {
+        var n = parseInt($('#n-input').val());
+        var k = parseInt($('#k-input').val());
+        var mnemonic = $('#mnemonic-input').val();
+
+        setValid($('#n-input'), n >= 2 && n <= 255);
+        setValid($('#k-input'), k >= 2 && k <= n);
+        setValid($('#mnemonic-input'), validateMnemonic(mnemonic));
       }
 
       validateRecover = function() {
@@ -130,7 +153,6 @@
         var mnemonic = $('#mnemonic-input').val();
         var s = shares(mnemonic, n, k);
         
-
         var list = $('#shares-output')
         list.empty();
         $.each(s, function(i) {
@@ -151,7 +173,8 @@
         randomMnemonic();
       });
 
-      $('#mnemonic-input, #n-input, #k-input').on('input', function(e){
+      $('#mnemonic-input, #n-input, #k-input').on('input', function(e) {
+        validateCreate();
         createShares();
       });
 

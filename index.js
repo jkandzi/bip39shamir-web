@@ -17,4 +17,7 @@ exports.combine = combine;
 random = function() {
   return bip39.generateMnemonic(128);
 }
-exports.random = random;
+
+validateMnemonic = function(mnemonic) {
+  return bip39.validateMnemonic(mnemonic);
+}
