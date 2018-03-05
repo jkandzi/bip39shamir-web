@@ -6,12 +6,12 @@ cache:
   directories:
     - node_modules
 script:
+  - yarn test
   - mkdir -p build/css
   - mkdir -p build/js
   - cp index.html build/
   - cp css/custom.css build/css/custom.css
   - cp js/bundle.js build/js/bundle.js
-  - ls build
 deploy:
   provider: s3
   access_key_id: AKIAJ5CX7ED2TBKKBNSQ
