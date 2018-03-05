@@ -103,6 +103,7 @@
             <div class="form-group">
               <label for="shares-input">Shares:</label>
               <textarea class="form-control" id="shares-input" rows="6"></textarea>
+              <div id="shares-input-error" class="invalid-feedback"></div>
               <small class="form-text text-muted">
                 Enter K of your shares separated by newlines to recover your Bip39 Seed.
               </small>
@@ -141,10 +142,6 @@
         setValid($('#n-input'), n >= 2 && n <= 255);
         setValid($('#k-input'), k >= 2 && k <= n);
         setValid($('#mnemonic-input'), validateMnemonic(mnemonic));
-      }
-
-      validateRecover = function() {
-
       }
 
       createShares = function() {
@@ -187,10 +184,18 @@
         s = s.filter(function(x) {
           return x !== "";
         });
-        var mnemonic = combine(s)
-        $('#menmonic-output').val(mnemonic);
+        
+        try {
+          var mnemonic = combine(s)
+          $('#menmonic-output').val(mnemonic);
+          setValid($('#shares-input'), true);
+        }
+        catch(error) {
+          $('#menmonic-output').val("");
+          $('#shares-input-error').html(error.message)
+          setValid($('#shares-input'), false);
+        }
       });
-
       randomMnemonic();
     </script>
   </body>
