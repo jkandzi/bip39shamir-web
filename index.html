@@ -142,9 +142,21 @@
         var k = parseInt($('#k-input').val());
         var mnemonic = $('#mnemonic-input').val();
 
-        setValid($('#n-input'), n >= 2 && n <= 255);
-        setValid($('#k-input'), k >= 2 && k <= n);
-        setValid($('#mnemonic-input'), validateMnemonic(mnemonic));
+        var isNValid = n >= 2 && n <= 255;
+        var isKValid = k >= 2 && k <= n;
+        var isMnemonicValid = validateMnemonic(mnemonic);
+
+        setValid($('#n-input'), isNValid);
+        setValid($('#k-input'), isKValid);
+        setValid($('#mnemonic-input'), isMnemonicValid);
+
+        if (!isNValid || !isKValid || !isMnemonicValid) {
+          var list = $('#shares-output');
+          list.empty();
+          $('<li/>')
+            .addClass('list-group-item')
+            .appendTo(list);
+        }
       }
 
       createShares = function() {
@@ -153,14 +165,13 @@
         var mnemonic = $('#mnemonic-input').val();
         var s = shares(mnemonic, n, k);
         
-        var list = $('#shares-output')
+        var list = $('#shares-output');
         list.empty();
         $.each(s, function(i) {
-          var li = $('<li/>')
-              .addClass('list-group-item')
-              .attr('role', 'menuitem')
-              .text(s[i])
-              .appendTo(list);
+          $('<li/>')
+            .addClass('list-group-item')
+            .text(s[i])
+            .appendTo(list);
         });
       }
 
