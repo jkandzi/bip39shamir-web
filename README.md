@@ -37,3 +37,7 @@ yarn test
 ## Contact
 
 [@jkandzi](https://twitter.com/jkandzi)
+
+## License
+
+bip39shamir is released under the MIT license. [See LICENSE](https://github.com/jkandzi/bip39shamir-web/blob/master/LICENSE) for details.
