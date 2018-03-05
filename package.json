@@ -3,13 +3,21 @@
   "version": "0.0.1",
   "description": "bip39 Shamir",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"No tests\" && exit 0"
-  },
-  "repository": {
+    "repository": {
     "type": "git",
     "url": "git+https://github.com/jkandzi/bip39shamir-web.git"
   },
   "author": "Justus Kandzi",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bip39": "^2.5.0",
+    "secrets.js-grempe": "^1.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.1"
+  },
+  "scripts": {
+    "test": "mocha",
+    "build": "browserify index.js | uglifyjs > js/bundle.js"
+  }
 }
