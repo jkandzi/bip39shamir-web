@@ -1,6 +1,13 @@
 language: node_js
 node_js:
   - node
+script:
+  - mkdir -p build/css
+  - mkdir -p build/js
+  - cp index.html build/
+  - cp css/custom.css build/css/custom.css
+  - cp js/bundle.js build/js/bundle.js
+  - ls build
 deploy:
   provider: s3
   access_key_id: AKIAJ5CX7ED2TBKKBNSQ
@@ -8,5 +15,9 @@ deploy:
     secure: BAI3bL/6965YZwmpsuA0ISmBpt61RjNW6lshAy86kxcYJ3cgLqJWDZ8WGEv/3ubGnQbnPpIJeXWiA1Y2XPecC7TdKL3B9YxVVS1hEbRu3G6t0uqWlJkXo1Bqqt9tV/44BVGB+B+zT7IDqFVp3vtbBUSOtwh/nrkZJ42R9OG+BTfYpHRU9wk/M43mogJAmLAwN0yAHTfLuE9hnutE4Hm4IbBePusk8GBxjmU8/THeruarukhzCR44GeUpUhv2IsaVtCv6cby5Kqt6W352GaufRduhWsaRkLVR/t9tcRMmqhAM5PAj0riKtsXxZrh/IRL8OrJIvoi62fz6vasaG/cBBrFvcRIlazaFvXzz8+uQWBJXY6gEqPuLUOz9Ewq7EeBofmBLtUHDCV58iIBKw9TOozaHQQ3V1p4XnXScX3cjizUwUm/2mb7L8BKny1pBcVvrpgdsZvZrjXH1Al8XxwuEcVrqVLoKw+iyE3cP+tuOmiW+F+4D81YIicIYm9EsRbGV2vdmgjz/IR024jCacNT1FIM0LyvGdzYHwYu8/VZic2V2WQq1d9xoC7KH51mghLnY49Jx4onwNdgV9Y6EFyRZysXz5W/XmF1zCM+NPujAj4OqNuaqvxmISW6s/jLZksDhdmWl47h7SvhCd6GRim4jClc+IGahu9pr01Y6g+T/7Fw=
   bucket: shamir.kandzi.com
   acl: public_read
+  local_dir: build
   on:
     repo: jkandzi/bip39shamir-web
+branches:
+  only:
+    - master
