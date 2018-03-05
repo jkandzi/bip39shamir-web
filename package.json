@@ -1,0 +1,15 @@
+{
+  "name": "bip39shamir-web",
+  "version": "0.0.1",
+  "description": "bip39 Shamir",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkandzi/bip39shamir-web.git"
+  },
+  "author": "Justus Kandzi",
+  "license": "MIT"
+}
